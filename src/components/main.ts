@@ -61,7 +61,12 @@ const Main = () => {
 
 
   let rightSection = document.createElement("div");
-  //rightSection.classList.add("col-10");
+  rightSection.classList.add("d-flex", "flex-column");
+
+  let upperAreaDiv = document.createElement("div");
+  let middleAreaDiv = document.createElement("div");
+  let lowerAreaDiv = document.createElement("div");
+  lowerAreaDiv.classList.add("d-flex", "flex-row", "justify-content-center");
 
   // User information
   // 1.User name
@@ -120,12 +125,30 @@ const Main = () => {
   numberOfAmountP.innerHTML = "0";
   amountDiv.append(numberOfAmountP);
   userInfoDiv.append(amountDiv);
-
-  rightSection.append(userInfoDiv);
+  upperAreaDiv.append(userInfoDiv);
+  rightSection.append(upperAreaDiv);
   
-  let upperAreaDiv = document.createElement("div");
-  let middleAreaDiv = document.createElement("div");
-  let lowerAreaDiv = document.createElement("div");
+  let test = document.createElement("p");
+  test.innerHTML = "test";
+  middleAreaDiv.append(test);
+  rightSection.append(middleAreaDiv);
+  
+  // Clear button and save button in lower right section
+  let backButtonDiv = document.createElement("div");
+  let backButtonImg = document.createElement("img");
+  backButtonImg.classList.add("hover", "pr-1");
+  backButtonImg.src = "/assets/img/x-square-fill.svg";
+  backButtonDiv.append(backButtonImg);
+  lowerAreaDiv.append(backButtonDiv);
+  let saveButtonDiv = document.createElement("div");
+  let saveButtonImg = document.createElement("img");
+  saveButtonImg.classList.add("hover", "pl-1");
+  saveButtonImg.src = "/assets/img/save-fill.svg";
+  saveButtonDiv.append(saveButtonImg);
+  lowerAreaDiv.append(saveButtonDiv);
+
+  rightSection.append(lowerAreaDiv);
+  
 
   subContainer.append(rightSection);
 
