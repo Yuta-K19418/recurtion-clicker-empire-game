@@ -23,11 +23,18 @@ p {
 
 /* effect */
 .hover {
-	cursor: pointer;
+	opacity:0.8;
 }
 
 .hover:hover {
 	opacity: 0.9;
+}
+
+.hover:active {
+	-webkit-transform: translate(0,2px);
+	-moz-transform: translate(0,2px);
+	transform: translate(0,2px);
+	border-bottom:none;
 }
 
 /* specific layout */
