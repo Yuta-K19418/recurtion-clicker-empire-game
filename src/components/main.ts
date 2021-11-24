@@ -1,4 +1,5 @@
 import AppConfig from "../appConfig";
+import getMerchandises from "../merchandises";
 
 const Main = () => {
   const config = AppConfig();
@@ -11,6 +12,8 @@ const Main = () => {
   subContainer.style.height = "100vh";
   subContainer.id = "mainContainer";
 
+  let numberOfAmountP = document.createElement("p");
+  
   let leftSection = document.createElement("div");
   leftSection.classList.add("bg-dark","col-5", "my-2", "mx-5");
 
@@ -68,6 +71,38 @@ const Main = () => {
   let lowerAreaDiv = document.createElement("div");
   lowerAreaDiv.classList.add("d-flex", "flex-row", "justify-content-center");
 
+  upperAreaDiv.append(getUserInfoDiv(numberOfAmountP));
+  rightSection.append(upperAreaDiv);
+  
+  middleAreaDiv.classList.add("bg-dark");
+  getMerchandiseCards(middleAreaDiv);
+  middleAreaDiv.style.overflowY = "scroll";
+  rightSection.append(middleAreaDiv);
+  
+  // Clear button and save button in lower right section
+  let backButtonDiv = document.createElement("div");
+  let backButtonImg = document.createElement("img");
+  backButtonImg.classList.add("hover", "pr-1");
+  backButtonImg.src = "/assets/img/x-square-fill.svg";
+  backButtonDiv.append(backButtonImg);
+  lowerAreaDiv.append(backButtonDiv);
+  let saveButtonDiv = document.createElement("div");
+  let saveButtonImg = document.createElement("img");
+  saveButtonImg.classList.add("hover", "pl-1");
+  saveButtonImg.src = "/assets/img/save-fill.svg";
+  saveButtonDiv.append(saveButtonImg);
+  lowerAreaDiv.append(saveButtonDiv);
+
+  rightSection.append(lowerAreaDiv);
+  
+
+  subContainer.append(rightSection);
+
+  mainContainer?.append(subContainer);
+}
+
+function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
+
   // User information
   // 1.User name
   let userInfoDiv = document.createElement("div");
@@ -120,39 +155,72 @@ const Main = () => {
   currencyP .classList.add("text-white", "font-weight-bold",);
   currencyP .innerHTML = "¥";
   amountDiv.append(currencyP);
-  let numberOfAmountP = document.createElement("p");
   numberOfAmountP .classList.add("text-white", "font-weight-bold");
   numberOfAmountP.innerHTML = "0";
   amountDiv.append(numberOfAmountP);
   userInfoDiv.append(amountDiv);
-  upperAreaDiv.append(userInfoDiv);
-  rightSection.append(upperAreaDiv);
-  
-  let test = document.createElement("p");
-  test.innerHTML = "test";
-  middleAreaDiv.append(test);
-  rightSection.append(middleAreaDiv);
-  
-  // Clear button and save button in lower right section
-  let backButtonDiv = document.createElement("div");
-  let backButtonImg = document.createElement("img");
-  backButtonImg.classList.add("hover", "pr-1");
-  backButtonImg.src = "/assets/img/x-square-fill.svg";
-  backButtonDiv.append(backButtonImg);
-  lowerAreaDiv.append(backButtonDiv);
-  let saveButtonDiv = document.createElement("div");
-  let saveButtonImg = document.createElement("img");
-  saveButtonImg.classList.add("hover", "pl-1");
-  saveButtonImg.src = "/assets/img/save-fill.svg";
-  saveButtonDiv.append(saveButtonImg);
-  lowerAreaDiv.append(saveButtonDiv);
+  return userInfoDiv;
+}
 
-  rightSection.append(lowerAreaDiv);
-  
+function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
+  const merchandises = getMerchandises();
+  merchandises.map(merchandise => {
+    let cardDiv = document.createElement("div");
+    cardDiv.classList.add("d-flex", "flex-row", "bg-navy", "m-1", "p-3","hover");
+    let merchandiseImg = document.createElement("img");
+    merchandiseImg.src = merchandise.imageUrl;
+    merchandiseImg.height = 150;
+    merchandiseImg.width = 150;
+    cardDiv.append(merchandiseImg);
 
-  subContainer.append(rightSection);
+    let detailDiv = document.createElement("div");
+    detailDiv.classList.add("d-flex", "flex-column", "justify-content-center", "ml-3");
+    
+    let firstLineDiv = document.createElement("div");
+    firstLineDiv.classList.add("d-flex", "align-items-center", "bg-navy");
+    let merchandiseNameH3 = document.createElement("h3");
+    merchandiseNameH3.classList.add("text-white", "font-weight-bold", "pr-1");
+    merchandiseNameH3.innerHTML = merchandise.name;
+    firstLineDiv.append(merchandiseNameH3);
+    let purchaseQuantityH3 = document.createElement("h3");
+    purchaseQuantityH3 .classList.add("text-white", "font-weight-bold", "pl-1");
+    purchaseQuantityH3.innerHTML = "0";
+    firstLineDiv.append(purchaseQuantityH3);
+    detailDiv.append(firstLineDiv);
 
-  mainContainer?.append(subContainer);
+    let secondLineDiv = document.createElement("div");
+    secondLineDiv.classList.add("d-flex", "justify-content-between", "bg-navy");
+    let priceDiv = document.createElement("div");
+    priceDiv.classList.add("d-flex", "flex-row");
+    let currencyP1 = document.createElement("p");
+    currencyP1.classList.add("text-white", "font-weight-bold", "pr-1");
+    currencyP1.innerHTML = "\\";
+    priceDiv.append(currencyP1);
+    let priceP = document.createElement("p");
+    priceP.classList.add("text-white", "font-weight-bold");
+    priceP.innerHTML = merchandise.price.toLocaleString();
+    priceDiv.append(priceP);
+    secondLineDiv.append(priceDiv);
+    let unitPriceDiv = document.createElement("div");
+    unitPriceDiv.classList.add("d-flex", "flex-row");
+    let currencyP2 = document.createElement("p");
+    currencyP2.classList.add("text-success", "font-weight-bold", "pr-1");
+    currencyP2.innerHTML = "\\";
+    unitPriceDiv.append(currencyP2);
+    let unitPriceP = document.createElement("p");
+    unitPriceP.classList.add("text-success", "font-weight-bold", "pr-1");
+    unitPriceP.innerHTML = merchandise.unitPrice.toLocaleString();
+    unitPriceDiv.append(unitPriceP);
+    let unitP = document.createElement("p");
+    unitP.classList.add("text-success", "font-weight-bold");
+    unitP.innerHTML = `/${merchandise.unit}`;
+    unitPriceDiv.append(unitP);
+    secondLineDiv.append(unitPriceDiv);
+    detailDiv.append(secondLineDiv);
+
+    cardDiv.append(detailDiv);
+    middleAreaDiv.append(cardDiv);
+  });
 }
 
 function GetMainPage(){
@@ -160,3 +228,4 @@ function GetMainPage(){
 }
 
 export default GetMainPage;
+
