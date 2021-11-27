@@ -4,7 +4,7 @@ import GetMainPage from "./components/main";
 import DisplayBlock from "./diplayBlock";
 
 let main = document.getElementById("main");
-main?.classList.add("vh-100", "bg-dark", "d-flex", "flex-column", "justify-content-center", "align-items-center");
+main?.classList.add("bg-dark", "d-flex", "justify-content-center", "p-md-5");
 let login = document.createElement("div");
 login.id = "loginContainer";
 main?.append(login);

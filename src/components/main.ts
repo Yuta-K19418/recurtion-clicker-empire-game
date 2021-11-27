@@ -1,4 +1,5 @@
 import AppConfig from "../appConfig";
+import DisplayNone from "../displayNone";
 import getMerchandises from "../merchandises";
 
 const Main = () => {
@@ -6,22 +7,24 @@ const Main = () => {
   const AMOUNT_PER_A_CLICK = 25;
 
   let mainContainer = document.getElementById("main");
+  mainContainer!.style.height = "100vh";
 
   let subContainer = document.createElement("div");
-  subContainer.classList.add("d-flex", "bg-navy", "d-block", "my-5", "mx-3");
-  subContainer.style.height = "100vh";
+  subContainer.classList.add("d-flex", "bg-navy", "d-block", "p-2");
   subContainer.id = "mainContainer";
 
   let numberOfAmountP = document.createElement("p");
   
   let leftSection = document.createElement("div");
-  leftSection.classList.add("bg-dark","col-5", "my-2", "mx-5");
+  leftSection.classList.add("col-4", "bg-dark");
+  let subLeftSectionContainer = document.createElement("div");
+  subLeftSectionContainer.classList.add("bg-dark", "d-flex", "flex-column", "pt-2");
 
   let hamburgerSection = document.createElement("div");
-  hamburgerSection.classList.add("bg-navy", "m-1");
+  hamburgerSection.classList.add("bg-navy", "pt-2");
 
   let upperHamburgerDiv = document.createElement("div");
-  upperHamburgerDiv.classList.add("d-flex", "flex-row", "justify-content-center","py-1", "pb-2");
+  upperHamburgerDiv.classList.add("d-flex", "flex-row", "justify-content-center");
 
   let numberOfhamburgersP = document.createElement("p");
   numberOfhamburgersP.classList.add("text-white", "font-weight-bold", "pr-1");
@@ -44,40 +47,45 @@ const Main = () => {
   lowerHamburgerDiv.append(oneClickP);
   hamburgerSection.append(lowerHamburgerDiv);
 
-  leftSection.append(hamburgerSection);
+  subLeftSectionContainer.append(hamburgerSection);
 
   let hamburgerImgDiv = document.createElement("div");
-  hamburgerImgDiv.classList.add("d-flex", "align-items-start", "justify-content-center", "py-5", "hover");
+  hamburgerImgDiv.classList.add("d-flex", "align-items-center", "justify-content-center", "mt-5", "hover");
   
   // Hamburger image in lower left section
   let hamburgerImg = document.createElement("img");
   hamburgerImg.src = config.hamburgerImg;
-  hamburgerImg.height = 200;
-  hamburgerImg.width = 300;
+  hamburgerImg.height = 180;
+  hamburgerImg.width = 280;
   hamburgerImg.addEventListener("click", function(){
     numberOfhamburgersP.innerHTML = (parseInt(numberOfhamburgersP.innerHTML) + 1).toString();
     numberOfAmountP.innerHTML = (parseInt(numberOfAmountP.innerHTML) + AMOUNT_PER_A_CLICK).toString();
   });
   hamburgerImgDiv.append(hamburgerImg);
-  leftSection.append(hamburgerImgDiv);
+  subLeftSectionContainer.append(hamburgerImgDiv);
+  leftSection.append(subLeftSectionContainer);
   subContainer.append(leftSection);
 
 
   let rightSection = document.createElement("div");
-  rightSection.classList.add("d-flex", "flex-column");
+  rightSection.classList.add("col-8", "pl-2", "pr-0");
+  let subRightSectionContainer = document.createElement("div");
+  subRightSectionContainer.classList.add("d-flex", "flex-column");
 
   let upperAreaDiv = document.createElement("div");
+  upperAreaDiv.classList.add("container");
   let middleAreaDiv = document.createElement("div");
   let lowerAreaDiv = document.createElement("div");
   lowerAreaDiv.classList.add("d-flex", "flex-row", "justify-content-center");
 
   upperAreaDiv.append(getUserInfoDiv(numberOfAmountP));
-  rightSection.append(upperAreaDiv);
+  subRightSectionContainer.append(upperAreaDiv);
   
   middleAreaDiv.classList.add("bg-dark");
   getMerchandiseCards(middleAreaDiv);
   middleAreaDiv.style.overflowY = "scroll";
-  rightSection.append(middleAreaDiv);
+  middleAreaDiv.style.height = "70vh";
+  subRightSectionContainer.append(middleAreaDiv);
   
   // Clear button and save button in lower right section
   let backButtonDiv = document.createElement("div");
@@ -93,9 +101,9 @@ const Main = () => {
   saveButtonDiv.append(saveButtonImg);
   lowerAreaDiv.append(saveButtonDiv);
 
-  rightSection.append(lowerAreaDiv);
+  subRightSectionContainer.append(lowerAreaDiv);
   
-
+  rightSection.append(subRightSectionContainer);
   subContainer.append(rightSection);
 
   mainContainer?.append(subContainer);
@@ -106,9 +114,9 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   // User information
   // 1.User name
   let userInfoDiv = document.createElement("div");
-  userInfoDiv.classList.add("d-flex","flex-wrap", "bg-dark", "my-2");
+  userInfoDiv.classList.add("row", "bg-dark", "my-2");
   let nameDiv = document.createElement("div");
-  nameDiv.classList.add("text-center", "bg-navy", "col-5", "m-1", "p-2");
+  nameDiv.classList.add("text-center", "bg-navy", "col", "m-1", "py-2");
   let nameP = document.createElement("p");
   nameP.classList.add("text-white", "font-weight-bold");
   nameP.innerHTML = "test";
@@ -117,7 +125,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   
   // 2.User age
   let ageDiv = document.createElement("div");
-  ageDiv.classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col-5", "m-1", "p-2");
+  ageDiv.classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col", "m-1", "py-2");
   let numberOfAgeP = document.createElement("p");
   numberOfAgeP.classList.add("text-white", "font-weight-bold","pr-1");
   numberOfAgeP.innerHTML = "1";
@@ -128,9 +136,13 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   ageDiv.append(ageP);
   userInfoDiv.append(ageDiv);
 
+  let breakDiv = document.createElement("div");
+  breakDiv.classList.add("w-100");
+  userInfoDiv.append(breakDiv);
+
   // 3.Passed days
   let daysDiv = document.createElement("div");
-  daysDiv.classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col-5", "m-1", "p-2");
+  daysDiv.classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col", "m-1", "py-2");
   let numberOfDaysP = document.createElement("p");
   numberOfDaysP.classList.add("text-white", "font-weight-bold","pr-1");
   numberOfDaysP.innerHTML = "1";
@@ -150,7 +162,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
 
   // 4.Amount
   let amountDiv = document.createElement("div");
-  amountDiv .classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col-5", "m-1", "p-2");
+  amountDiv .classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col", "m-1", "py-2");
   let currencyP = document.createElement("p");
   currencyP .classList.add("text-white", "font-weight-bold",);
   currencyP .innerHTML = "¥";
@@ -164,32 +176,37 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
 
 function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
   const merchandises = getMerchandises();
+  let container = document.createElement("div");
+  container.id = "cards";
   merchandises.map(merchandise => {
     let cardDiv = document.createElement("div");
     cardDiv.classList.add("d-flex", "flex-row", "bg-navy", "m-1", "p-3","hover");
+    cardDiv.addEventListener("click", function(){
+      DisplayNone(container);
+    });
     let merchandiseImg = document.createElement("img");
     merchandiseImg.src = merchandise.imageUrl;
-    merchandiseImg.height = 150;
-    merchandiseImg.width = 150;
+    merchandiseImg.height = 100;
+    merchandiseImg.width = 100;
     cardDiv.append(merchandiseImg);
 
     let detailDiv = document.createElement("div");
-    detailDiv.classList.add("d-flex", "flex-column", "justify-content-center", "ml-3");
+    detailDiv.classList.add("d-flex", "flex-column", "align-items-center", "ml-3");
     
     let firstLineDiv = document.createElement("div");
-    firstLineDiv.classList.add("d-flex", "align-items-center", "bg-navy");
-    let merchandiseNameH3 = document.createElement("h3");
-    merchandiseNameH3.classList.add("text-white", "font-weight-bold", "pr-1");
-    merchandiseNameH3.innerHTML = merchandise.name;
-    firstLineDiv.append(merchandiseNameH3);
-    let purchaseQuantityH3 = document.createElement("h3");
-    purchaseQuantityH3 .classList.add("text-white", "font-weight-bold", "pl-1");
-    purchaseQuantityH3.innerHTML = "0";
-    firstLineDiv.append(purchaseQuantityH3);
+    firstLineDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "bg-navy");
+    let merchandiseNameH4 = document.createElement("h4");
+    merchandiseNameH4.classList.add("text-white", "font-weight-bold", "pr-1");
+    merchandiseNameH4.innerHTML = merchandise.name;
+    firstLineDiv.append(merchandiseNameH4);
+    let purchaseQuantityH4 = document.createElement("h4");
+    purchaseQuantityH4 .classList.add("text-white", "font-weight-bold", "pl-1");
+    purchaseQuantityH4.innerHTML = "0";
+    firstLineDiv.append(purchaseQuantityH4);
     detailDiv.append(firstLineDiv);
 
     let secondLineDiv = document.createElement("div");
-    secondLineDiv.classList.add("d-flex", "justify-content-between", "bg-navy");
+    secondLineDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "bg-navy");
     let priceDiv = document.createElement("div");
     priceDiv.classList.add("d-flex", "flex-row");
     let currencyP1 = document.createElement("p");
@@ -219,7 +236,8 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
     detailDiv.append(secondLineDiv);
 
     cardDiv.append(detailDiv);
-    middleAreaDiv.append(cardDiv);
+    container.append(cardDiv);
+    middleAreaDiv.append(container);
   });
 }
 
