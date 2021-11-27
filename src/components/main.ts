@@ -76,7 +76,7 @@ const Main = () => {
   upperAreaDiv.classList.add("container");
   let middleAreaDiv = document.createElement("div");
   let lowerAreaDiv = document.createElement("div");
-  lowerAreaDiv.classList.add("d-flex", "flex-row", "justify-content-center");
+  lowerAreaDiv.classList.add("d-flex", "flex-row", "justify-content-end", "pr-4", "py-2");
 
   upperAreaDiv.append(getUserInfoDiv(numberOfAmountP));
   subRightSectionContainer.append(upperAreaDiv);
@@ -191,10 +191,10 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
     cardDiv.append(merchandiseImg);
 
     let detailDiv = document.createElement("div");
-    detailDiv.classList.add("d-flex", "flex-column", "align-items-center", "ml-3");
+    detailDiv.classList.add("d-flex", "flex-column", "align-items-center", "ml-3", "col");
     
     let firstLineDiv = document.createElement("div");
-    firstLineDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "bg-navy");
+    firstLineDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "bg-navy", "col", "px-0");
     let merchandiseNameH4 = document.createElement("h4");
     merchandiseNameH4.classList.add("text-white", "font-weight-bold", "pr-1");
     merchandiseNameH4.innerHTML = merchandise.name;
@@ -206,7 +206,7 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
     detailDiv.append(firstLineDiv);
 
     let secondLineDiv = document.createElement("div");
-    secondLineDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "bg-navy");
+    secondLineDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "bg-navy", "col", "px-0");
     let priceDiv = document.createElement("div");
     priceDiv.classList.add("d-flex", "flex-row");
     let currencyP1 = document.createElement("p");
