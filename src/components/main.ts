@@ -1,6 +1,8 @@
 import AppConfig from "../appConfig";
+import DisplayBlock from "../diplayBlock";
 import DisplayNone from "../displayNone";
-import getMerchandises from "../merchandises";
+import getMerchandises, { Merchandise } from "../merchandises";
+import GetDetail from "./detail";
 
 const Main = () => {
   const config = AppConfig();
@@ -58,8 +60,8 @@ const Main = () => {
   hamburgerImg.height = 180;
   hamburgerImg.width = 280;
   hamburgerImg.addEventListener("click", function(){
-    numberOfhamburgersP.innerHTML = (parseInt(numberOfhamburgersP.innerHTML) + 1).toString();
-    numberOfAmountP.innerHTML = (parseInt(numberOfAmountP.innerHTML) + AMOUNT_PER_A_CLICK).toString();
+    numberOfhamburgersP.innerHTML = (Number(numberOfhamburgersP.innerHTML) + 1).toString();
+    numberOfAmountP.innerHTML = (Number(numberOfAmountP.innerHTML) + AMOUNT_PER_A_CLICK).toString();
   });
   hamburgerImgDiv.append(hamburgerImg);
   subLeftSectionContainer.append(hamburgerImgDiv);
@@ -83,8 +85,9 @@ const Main = () => {
   
   middleAreaDiv.classList.add("bg-dark");
   getMerchandiseCards(middleAreaDiv);
-  middleAreaDiv.style.overflowY = "scroll";
-  middleAreaDiv.style.height = "70vh";
+  let detailDiv = document.createElement("div");
+  detailDiv.id = "detail";
+  middleAreaDiv.append(detailDiv);
   subRightSectionContainer.append(middleAreaDiv);
   
   // Clear button and save button in lower right section
@@ -111,6 +114,8 @@ const Main = () => {
 
 function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
 
+  const config = AppConfig();
+
   // User information
   // 1.User name
   let userInfoDiv = document.createElement("div");
@@ -120,6 +125,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   let nameP = document.createElement("p");
   nameP.classList.add("text-white", "font-weight-bold");
   nameP.innerHTML = "test";
+  nameP.id = config.userName;
   nameDiv.append(nameP);
   userInfoDiv.append(nameDiv);
   
@@ -129,6 +135,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   let numberOfAgeP = document.createElement("p");
   numberOfAgeP.classList.add("text-white", "font-weight-bold","pr-1");
   numberOfAgeP.innerHTML = "1";
+  numberOfAgeP.id = config.userAge;
   ageDiv.append(numberOfAgeP);
   let ageP = document.createElement("p");
   ageP.classList.add("text-white", "font-weight-bold");
@@ -146,12 +153,21 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   let numberOfDaysP = document.createElement("p");
   numberOfDaysP.classList.add("text-white", "font-weight-bold","pr-1");
   numberOfDaysP.innerHTML = "1";
+  numberOfAgeP.id = config.passedDays;
   setInterval(function(){
-    numberOfDaysP.innerHTML = (parseInt(numberOfDaysP.innerHTML) + 1).toString();
-    if (parseInt(numberOfDaysP.innerHTML) % 365 === 0)
+    numberOfDaysP.innerHTML = (Number(numberOfDaysP.innerHTML) + 1).toString();
+    if (Number(numberOfDaysP.innerHTML) % 365 === 0)
     {
-      numberOfAgeP.innerHTML = (parseInt(numberOfAgeP.innerHTML) + 1).toString();
+      numberOfAgeP.innerHTML = (Number(numberOfAgeP.innerHTML) + 1).toString();
     }
+
+    let totalAmount = 0;
+    getMerchandises().map(merchandise => {
+      let numberOfPurchases = Number(document.querySelector<HTMLElement>(`#${merchandise.name.replace(/\s+/g, "")}`)!.innerHTML);
+      totalAmount += numberOfPurchases * merchandise.unitPrice;
+    });
+    numberOfAmountP.innerHTML = (Number(numberOfAmountP.innerHTML) + totalAmount).toString();
+
   }, 1000);
   daysDiv.append(numberOfDaysP);
   let daysP = document.createElement("p");
@@ -168,7 +184,9 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   currencyP .innerHTML = "¥";
   amountDiv.append(currencyP);
   numberOfAmountP .classList.add("text-white", "font-weight-bold");
-  numberOfAmountP.innerHTML = "0";
+  // numberOfAmountP.innerHTML = "0";
+  numberOfAmountP.innerHTML = "1000000";
+  numberOfAmountP.id = config.money;
   amountDiv.append(numberOfAmountP);
   userInfoDiv.append(amountDiv);
   return userInfoDiv;
@@ -178,11 +196,15 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
   const merchandises = getMerchandises();
   let container = document.createElement("div");
   container.id = "cards";
+  container.style.overflowY = "scroll";
+  container.style.height = "70vh";
+  DisplayBlock(container);
   merchandises.map(merchandise => {
     let cardDiv = document.createElement("div");
     cardDiv.classList.add("d-flex", "flex-row", "bg-navy", "m-1", "p-3","hover");
     cardDiv.addEventListener("click", function(){
       DisplayNone(container);
+      GetDetail(merchandise);
     });
     let merchandiseImg = document.createElement("img");
     merchandiseImg.src = merchandise.imageUrl;
@@ -202,6 +224,7 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
     let purchaseQuantityH4 = document.createElement("h4");
     purchaseQuantityH4 .classList.add("text-white", "font-weight-bold", "pl-1");
     purchaseQuantityH4.innerHTML = "0";
+    purchaseQuantityH4.id = merchandise.name.replace(/\s+/g, "");
     firstLineDiv.append(purchaseQuantityH4);
     detailDiv.append(firstLineDiv);
 

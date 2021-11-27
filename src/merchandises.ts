@@ -1,4 +1,4 @@
-class Merchandise{
+export class Merchandise{
 
     name: string = "";
     price: number = 0;
