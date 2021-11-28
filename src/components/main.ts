@@ -4,6 +4,7 @@ import DisplayBlock from "../diplayBlock";
 import DisplayNone from "../displayNone";
 import getMerchandises, { Merchandise } from "../merchandises";
 import ResetAllData from "../resetAllData";
+import SaveData from "../saveData";
 import GetDetail from "./detail";
 
 const Main = () => {
@@ -110,6 +111,10 @@ const Main = () => {
   let saveButtonImg = document.createElement("img");
   saveButtonImg.classList.add("hover", "pl-1");
   saveButtonImg.src = "/assets/img/save-fill.svg";
+  saveButtonImg.addEventListener("click", function(){
+    SaveData();
+    alert("データを保存しました。再開時は現在のユーザー名を指定してください。");
+  });
   saveButtonDiv.append(saveButtonImg);
   lowerAreaDiv.append(saveButtonDiv);
 
