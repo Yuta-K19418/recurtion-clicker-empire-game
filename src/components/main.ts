@@ -161,7 +161,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   daysDiv.classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col", "m-1", "py-2");
   let numberOfDaysP = document.createElement("p");
   numberOfDaysP.classList.add("text-white", "font-weight-bold","pr-1");
-  numberOfDaysP.innerHTML = "1";
+  numberOfDaysP.innerHTML = "20";
   numberOfDaysP.id = config.passedDays;
   setInterval(function(){
     numberOfDaysP.innerHTML = (new Decimal(numberOfDaysP.innerHTML).plus(1)).toString();
