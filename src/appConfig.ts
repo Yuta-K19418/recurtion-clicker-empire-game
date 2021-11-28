@@ -6,6 +6,8 @@ const AppConfig = () => {
     userAge: "userAge",
     passedDays: "passedDays",
     money: "money",
+    Click: "Click",
+    Second: "Second",
   }
 }
 
