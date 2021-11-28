@@ -210,7 +210,7 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
   let container = document.createElement("div");
   container.id = "cards";
   container.style.overflowY = "scroll";
-  container.style.height = "70vh";
+  container.style.height = "65vh";
   DisplayBlock(container);
   merchandises.map(merchandise => {
     let cardDiv = document.createElement("div");

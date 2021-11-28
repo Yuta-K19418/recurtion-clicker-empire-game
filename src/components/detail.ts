@@ -8,15 +8,16 @@ const Detail = (merchandise: Merchandise) => {
     let mainContainer = document.getElementById("detail");
     mainContainer?.classList.add("bg-navy", "m-1");
     let subContainer = document.createElement("div");
-    subContainer.style.height = "69vh";
-    subContainer.style.width = "47vh";
+    subContainer.classList.add("p-5", "mx-5");
+    // subContainer.style.height = "69vh";
+    // subContainer.style.width = "47vh";
 
     let upperAreaDiv = document.createElement("div");
     upperAreaDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "py-5");
 
 
     let dataDiv = document.createElement("div");
-    dataDiv.classList.add("d-flex", "flex-column");
+    dataDiv.classList.add("d-flex", "flex-column", "mr-5", "pr-5");
     let nameP = document.createElement("p");
     nameP.classList.add("text-white", "font-weight-bold");
     nameP.innerHTML = merchandise.name;
@@ -43,6 +44,7 @@ const Detail = (merchandise: Merchandise) => {
     upperAreaDiv.append(dataDiv);
 
     let merchandiseImg = document.createElement("img");
+    merchandiseImg.classList.add("ml-5")
     merchandiseImg.src = merchandise.imageUrl;
     merchandiseImg.height = 100;
     merchandiseImg.width = 100;
