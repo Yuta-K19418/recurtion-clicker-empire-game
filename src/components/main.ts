@@ -3,6 +3,7 @@ import AppConfig from "../appConfig";
 import DisplayBlock from "../diplayBlock";
 import DisplayNone from "../displayNone";
 import getMerchandises, { Merchandise } from "../merchandises";
+import ResetAllData from "../resetAllData";
 import GetDetail from "./detail";
 
 const Main = () => {
@@ -32,6 +33,7 @@ const Main = () => {
   let numberOfhamburgersP = document.createElement("p");
   numberOfhamburgersP.classList.add("text-white", "font-weight-bold", "pr-1");
   numberOfhamburgersP.innerHTML = "0";
+  numberOfhamburgersP.id = config.hamburger;
   upperHamburgerDiv.append(numberOfhamburgersP);
 
   // Hamburger component in upper left section
@@ -93,12 +95,17 @@ const Main = () => {
   subRightSectionContainer.append(middleAreaDiv);
   
   // Clear button and save button in lower right section
-  let backButtonDiv = document.createElement("div");
-  let backButtonImg = document.createElement("img");
-  backButtonImg.classList.add("hover", "pr-1");
-  backButtonImg.src = "/assets/img/x-square-fill.svg";
-  backButtonDiv.append(backButtonImg);
-  lowerAreaDiv.append(backButtonDiv);
+  let clearButtonDiv = document.createElement("div");
+  let clearButtonImg = document.createElement("img");
+  clearButtonImg.classList.add("hover", "pr-1");
+  clearButtonImg.src = "/assets/img/x-square-fill.svg";
+  clearButtonImg.addEventListener("click", function(){
+    if (confirm("全データをクリアしますか?")) {
+      ResetAllData();
+    }
+  });
+  clearButtonDiv.append(clearButtonImg);
+  lowerAreaDiv.append(clearButtonDiv);
   let saveButtonDiv = document.createElement("div");
   let saveButtonImg = document.createElement("img");
   saveButtonImg.classList.add("hover", "pl-1");
@@ -155,7 +162,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   let numberOfDaysP = document.createElement("p");
   numberOfDaysP.classList.add("text-white", "font-weight-bold","pr-1");
   numberOfDaysP.innerHTML = "1";
-  numberOfAgeP.id = config.passedDays;
+  numberOfDaysP.id = config.passedDays;
   setInterval(function(){
     numberOfDaysP.innerHTML = (new Decimal(numberOfDaysP.innerHTML).plus(1)).toString();
     if (new Decimal(numberOfDaysP.innerHTML).modulo(365).equals(0))
