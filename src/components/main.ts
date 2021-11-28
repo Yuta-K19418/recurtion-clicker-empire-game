@@ -1,3 +1,4 @@
+import Decimal from "decimal.js";
 import AppConfig from "../appConfig";
 import DisplayBlock from "../diplayBlock";
 import DisplayNone from "../displayNone";
@@ -60,8 +61,8 @@ const Main = () => {
   hamburgerImg.height = 180;
   hamburgerImg.width = 280;
   hamburgerImg.addEventListener("click", function(){
-    numberOfhamburgersP.innerHTML = (Number(numberOfhamburgersP.innerHTML) + 1).toString();
-    numberOfAmountP.innerHTML = (Number(numberOfAmountP.innerHTML) + AMOUNT_PER_A_CLICK).toString();
+    numberOfhamburgersP.innerHTML = (new Decimal(numberOfhamburgersP.innerHTML).plus(1)).toString();
+    numberOfAmountP.innerHTML = (new Decimal(numberOfAmountP.innerHTML).plus(AMOUNT_PER_A_CLICK)).toString();
   });
   hamburgerImgDiv.append(hamburgerImg);
   subLeftSectionContainer.append(hamburgerImgDiv);
@@ -155,18 +156,18 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   numberOfDaysP.innerHTML = "1";
   numberOfAgeP.id = config.passedDays;
   setInterval(function(){
-    numberOfDaysP.innerHTML = (Number(numberOfDaysP.innerHTML) + 1).toString();
-    if (Number(numberOfDaysP.innerHTML) % 365 === 0)
+    numberOfDaysP.innerHTML = (new Decimal(numberOfDaysP.innerHTML).plus(1)).toString();
+    if (new Decimal(numberOfDaysP.innerHTML).modulo(365).equals(0))
     {
-      numberOfAgeP.innerHTML = (Number(numberOfAgeP.innerHTML) + 1).toString();
+      numberOfAgeP.innerHTML = (new Decimal(numberOfAgeP.innerHTML).plus(1)).toString();
     }
 
-    let totalAmount = 0;
+    let totalAmount = new Decimal(0);
     getMerchandises().map(merchandise => {
-      let numberOfPurchases = Number(document.querySelector<HTMLElement>(`#${merchandise.name.replace(/\s+/g, "")}`)!.innerHTML);
-      totalAmount += numberOfPurchases * merchandise.unitPrice;
+      let numberOfPurchases = new Decimal(document.querySelector<HTMLElement>(`#${merchandise.name.replace(/\s+/g, "")}`)!.innerHTML);
+      totalAmount = totalAmount.plus(numberOfPurchases.times(merchandise.unitPrice));
     });
-    numberOfAmountP.innerHTML = (Number(numberOfAmountP.innerHTML) + totalAmount).toString();
+    numberOfAmountP.innerHTML = (new Decimal(numberOfAmountP.innerHTML).plus(totalAmount)).toString();
 
   }, 1000);
   daysDiv.append(numberOfDaysP);

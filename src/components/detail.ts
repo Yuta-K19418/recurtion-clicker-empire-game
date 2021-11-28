@@ -1,3 +1,4 @@
+import Decimal from "decimal.js";
 import AppConfig from "../appConfig";
 import DisplayBlock from "../diplayBlock";
 import DisplayNone from "../displayNone";
@@ -68,7 +69,7 @@ const Detail = (merchandise: Merchandise) => {
     totalPriceP.innerHTML = "0";
     totalDiv.append(totalPriceP);
     inputNumberOfPurchases.addEventListener("change", function(e){
-        totalPriceP.innerHTML = (Number(priceP.innerHTML) * Number(inputNumberOfPurchases.value)).toString(); 
+        totalPriceP.innerHTML = (new Decimal(priceP.innerHTML).times(new Decimal(inputNumberOfPurchases.value))).toString(); 
     });
     middleAreaDiv.append(inputNumberOfPurchases, totalDiv);
 
@@ -97,10 +98,10 @@ const Detail = (merchandise: Merchandise) => {
     purchaseButton.addEventListener("click", function() {
         const config = AppConfig();
         let money = document.getElementById(config.money);
-        if (Number(money!.innerHTML) >= Number(totalPriceP.innerHTML)) {
-            money!.innerHTML = (Number(money!.innerHTML) - Number(totalPriceP.innerHTML)).toString();  
+        if (new Decimal(money!.innerHTML) >= new Decimal(totalPriceP.innerHTML)) {
+            money!.innerHTML = (new Decimal(money!.innerHTML).minus(new Decimal(totalPriceP.innerHTML))).toString();  
             let numberOfPurchases = document.getElementById(nameP.innerHTML.replace(/\s+/g, ""));
-            numberOfPurchases!.innerHTML = (Number(numberOfPurchases!.innerHTML) + Number(inputNumberOfPurchases.value)).toString();
+            numberOfPurchases!.innerHTML = (new Decimal(numberOfPurchases!.innerHTML).plus(new Decimal(inputNumberOfPurchases.value))).toString();
         }
         else {
             alert("所持金が足りません。");
