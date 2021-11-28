@@ -17,21 +17,31 @@ const Main = (inputName: string, savedData: string | null) => {
   mainContainer?.classList.add("d-flex", "bg-navy", "d-block", "p-2");
 
   let numberOfAmountP = document.createElement("p");
-  
+
   let leftSection = document.createElement("div");
   leftSection.classList.add("col-4", "bg-dark");
   let subLeftSectionContainer = document.createElement("div");
-  subLeftSectionContainer.classList.add("bg-dark", "d-flex", "flex-column", "pt-2");
+  subLeftSectionContainer.classList.add(
+    "bg-dark",
+    "d-flex",
+    "flex-column",
+    "pt-2"
+  );
 
   let hamburgerSection = document.createElement("div");
   hamburgerSection.classList.add("bg-navy", "pt-2");
 
   let upperHamburgerDiv = document.createElement("div");
-  upperHamburgerDiv.classList.add("d-flex", "flex-row", "justify-content-center");
+  upperHamburgerDiv.classList.add(
+    "d-flex",
+    "flex-row",
+    "justify-content-center"
+  );
 
   let numberOfhamburgersP = document.createElement("p");
   numberOfhamburgersP.classList.add("text-white", "font-weight-bold", "pr-1");
-  numberOfhamburgersP.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userData.hamburgers : "0"; 
+  numberOfhamburgersP.innerHTML =
+    jsonDecorded !== null ? jsonDecorded[0].userData.hamburgers : "0";
   numberOfhamburgersP.id = config.hamburger;
   upperHamburgerDiv.append(numberOfhamburgersP);
 
@@ -43,7 +53,12 @@ const Main = (inputName: string, savedData: string | null) => {
   hamburgerSection.append(upperHamburgerDiv);
 
   let lowerHamburgerDiv = document.createElement("div");
-  lowerHamburgerDiv.classList.add("d-flex", "flex-row", "justify-content-center", "pb-2");
+  lowerHamburgerDiv.classList.add(
+    "d-flex",
+    "flex-row",
+    "justify-content-center",
+    "pb-2"
+  );
 
   let oneClickP = document.createElement("p");
   oneClickP.classList.add("text-white", "font-weight-bold");
@@ -54,23 +69,36 @@ const Main = (inputName: string, savedData: string | null) => {
   subLeftSectionContainer.append(hamburgerSection);
 
   let hamburgerImgDiv = document.createElement("div");
-  hamburgerImgDiv.classList.add("d-flex", "align-items-center", "justify-content-center", "mt-5", "hover");
-  
+  hamburgerImgDiv.classList.add(
+    "d-flex",
+    "align-items-center",
+    "justify-content-center",
+    "mt-5",
+    "hover"
+  );
+
   // Hamburger image in lower left section
   let hamburgerImg = document.createElement("img");
   hamburgerImg.src = config.hamburgerImg;
   hamburgerImg.height = 180;
   hamburgerImg.width = 280;
-  hamburgerImg.addEventListener("click", function(){
-    let numberOfFlipMachine = new Decimal(document.querySelector<HTMLElement>(`#${getMerchandises()[0].name.replace(/\s+/g, "")}`)!.innerHTML);
-    numberOfhamburgersP.innerHTML = (new Decimal(numberOfhamburgersP.innerHTML).plus(numberOfFlipMachine.plus(1))).toString();
-    numberOfAmountP.innerHTML = (new Decimal(numberOfAmountP.innerHTML).plus(new Decimal(numberOfFlipMachine.plus(1)).times(AMOUNT_PER_A_CLICK))).toString();
+  hamburgerImg.addEventListener("click", function () {
+    let numberOfFlipMachine = new Decimal(
+      document.querySelector<HTMLElement>(
+        `#${getMerchandises()[0].name.replace(/\s+/g, "")}`
+      )!.innerHTML
+    );
+    numberOfhamburgersP.innerHTML = new Decimal(numberOfhamburgersP.innerHTML)
+      .plus(numberOfFlipMachine.plus(1))
+      .toString();
+    numberOfAmountP.innerHTML = new Decimal(numberOfAmountP.innerHTML)
+      .plus(new Decimal(numberOfFlipMachine.plus(1)).times(AMOUNT_PER_A_CLICK))
+      .toString();
   });
   hamburgerImgDiv.append(hamburgerImg);
   subLeftSectionContainer.append(hamburgerImgDiv);
   leftSection.append(subLeftSectionContainer);
   mainContainer?.append(leftSection);
-
 
   let rightSection = document.createElement("div");
   rightSection.classList.add("col-8", "pl-2", "pr-0");
@@ -81,24 +109,30 @@ const Main = (inputName: string, savedData: string | null) => {
   upperAreaDiv.classList.add("container");
   let middleAreaDiv = document.createElement("div");
   let lowerAreaDiv = document.createElement("div");
-  lowerAreaDiv.classList.add("d-flex", "flex-row", "justify-content-end", "pr-4", "py-2");
+  lowerAreaDiv.classList.add(
+    "d-flex",
+    "flex-row",
+    "justify-content-end",
+    "pr-4",
+    "py-2"
+  );
 
   upperAreaDiv.append(getUserInfoDiv(numberOfAmountP, inputName, jsonDecorded));
   subRightSectionContainer.append(upperAreaDiv);
-  
+
   middleAreaDiv.classList.add("bg-dark");
   getMerchandiseCards(middleAreaDiv, jsonDecorded);
   let detailDiv = document.createElement("div");
   detailDiv.id = "detail";
   middleAreaDiv.append(detailDiv);
   subRightSectionContainer.append(middleAreaDiv);
-  
+
   // Clear button and save button in lower right section
   let clearButtonDiv = document.createElement("div");
   let clearButtonImg = document.createElement("img");
   clearButtonImg.classList.add("hover", "pr-1");
   clearButtonImg.src = "/assets/img/x-square-fill.svg";
-  clearButtonImg.addEventListener("click", function(){
+  clearButtonImg.addEventListener("click", function () {
     if (confirm("全データをクリアしますか?")) {
       ResetAllData();
     }
@@ -109,7 +143,7 @@ const Main = (inputName: string, savedData: string | null) => {
   let saveButtonImg = document.createElement("img");
   saveButtonImg.classList.add("hover", "pl-1");
   saveButtonImg.src = "/assets/img/save-fill.svg";
-  saveButtonImg.addEventListener("click", function(){
+  saveButtonImg.addEventListener("click", function () {
     SaveData();
     alert("データを保存しました。再開時は現在のユーザー名を指定してください。");
   });
@@ -117,17 +151,20 @@ const Main = (inputName: string, savedData: string | null) => {
   lowerAreaDiv.append(saveButtonDiv);
 
   subRightSectionContainer.append(lowerAreaDiv);
-  
+
   rightSection.append(subRightSectionContainer);
   mainContainer?.append(rightSection);
 
   DisplayBlock(mainContainer);
   let loginContainer = document.getElementById("loginContainer");
   DisplayNone(loginContainer);
-}
+};
 
-function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string, jsonDecorded: any): HTMLElement{
-
+function getUserInfoDiv(
+  numberOfAmountP: HTMLElement,
+  inputName: string,
+  jsonDecorded: any
+): HTMLElement {
   const config = AppConfig();
 
   // User information
@@ -138,17 +175,27 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string, jsonDec
   nameDiv.classList.add("text-center", "bg-navy", "col", "m-1", "py-2");
   let nameP = document.createElement("p");
   nameP.classList.add("text-white", "font-weight-bold");
-  nameP.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userName : inputName;
+  nameP.innerHTML =
+    jsonDecorded !== null ? jsonDecorded[0].userName : inputName;
   nameP.id = config.userName;
   nameDiv.append(nameP);
   userInfoDiv.append(nameDiv);
-  
+
   // 2.User age
   let ageDiv = document.createElement("div");
-  ageDiv.classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col", "m-1", "py-2");
+  ageDiv.classList.add(
+    "d-flex",
+    "flex-row",
+    "justify-content-center",
+    "bg-navy",
+    "col",
+    "m-1",
+    "py-2"
+  );
   let numberOfAgeP = document.createElement("p");
-  numberOfAgeP.classList.add("text-white", "font-weight-bold","pr-1");
-  numberOfAgeP.innerHTML =  jsonDecorded !== null ? jsonDecorded[0].userData.userAge : "20";
+  numberOfAgeP.classList.add("text-white", "font-weight-bold", "pr-1");
+  numberOfAgeP.innerHTML =
+    jsonDecorded !== null ? jsonDecorded[0].userData.userAge : "20";
   numberOfAgeP.id = config.userAge;
   ageDiv.append(numberOfAgeP);
   let ageP = document.createElement("p");
@@ -163,25 +210,46 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string, jsonDec
 
   // 3.Passed days
   let daysDiv = document.createElement("div");
-  daysDiv.classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col", "m-1", "py-2");
+  daysDiv.classList.add(
+    "d-flex",
+    "flex-row",
+    "justify-content-center",
+    "bg-navy",
+    "col",
+    "m-1",
+    "py-2"
+  );
   let numberOfDaysP = document.createElement("p");
-  numberOfDaysP.classList.add("text-white", "font-weight-bold","pr-1");
-  numberOfDaysP.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userData.passedDays : "0";
+  numberOfDaysP.classList.add("text-white", "font-weight-bold", "pr-1");
+  numberOfDaysP.innerHTML =
+    jsonDecorded !== null ? jsonDecorded[0].userData.passedDays : "0";
   numberOfDaysP.id = config.passedDays;
-  setInterval(function(){
-    numberOfDaysP.innerHTML = (new Decimal(numberOfDaysP.innerHTML).plus(1)).toString();
-    if (new Decimal(numberOfDaysP.innerHTML).modulo(365).equals(0))
-    {
-      numberOfAgeP.innerHTML = (new Decimal(numberOfAgeP.innerHTML).plus(1)).toString();
+  setInterval(function () {
+    numberOfDaysP.innerHTML = new Decimal(numberOfDaysP.innerHTML)
+      .plus(1)
+      .toString();
+    if (new Decimal(numberOfDaysP.innerHTML).modulo(365).equals(0)) {
+      numberOfAgeP.innerHTML = new Decimal(numberOfAgeP.innerHTML)
+        .plus(1)
+        .toString();
     }
 
     let totalAmount = new Decimal(0);
-    getMerchandises().map(merchandise => {
-      let numberOfPurchases = new Decimal(document.querySelector<HTMLElement>(`#${merchandise.name.replace(/\s+/g, "")}`)!.innerHTML);
-      totalAmount = totalAmount.plus(merchandise.unit === config.Second ? numberOfPurchases.times(merchandise.unitPrice) : 0);
+    getMerchandises().map((merchandise) => {
+      let numberOfPurchases = new Decimal(
+        document.querySelector<HTMLElement>(
+          `#${merchandise.name.replace(/\s+/g, "")}`
+        )!.innerHTML
+      );
+      totalAmount = totalAmount.plus(
+        merchandise.unit === config.Second
+          ? numberOfPurchases.times(merchandise.unitPrice)
+          : 0
+      );
     });
-    numberOfAmountP.innerHTML = (new Decimal(numberOfAmountP.innerHTML).plus(totalAmount)).toString();
-
+    numberOfAmountP.innerHTML = new Decimal(numberOfAmountP.innerHTML)
+      .plus(totalAmount)
+      .toString();
   }, 1000);
   daysDiv.append(numberOfDaysP);
   let daysP = document.createElement("p");
@@ -192,13 +260,22 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string, jsonDec
 
   // 4.Amount
   let amountDiv = document.createElement("div");
-  amountDiv .classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col", "m-1", "py-2");
+  amountDiv.classList.add(
+    "d-flex",
+    "flex-row",
+    "justify-content-center",
+    "bg-navy",
+    "col",
+    "m-1",
+    "py-2"
+  );
   let currencyP = document.createElement("p");
-  currencyP .classList.add("text-white", "font-weight-bold",);
-  currencyP .innerHTML = "¥";
+  currencyP.classList.add("text-white", "font-weight-bold");
+  currencyP.innerHTML = "¥";
   amountDiv.append(currencyP);
-  numberOfAmountP .classList.add("text-white", "font-weight-bold");
-  numberOfAmountP.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userData.money : "50000";
+  numberOfAmountP.classList.add("text-white", "font-weight-bold");
+  numberOfAmountP.innerHTML =
+    jsonDecorded !== null ? jsonDecorded[0].userData.money : "50000";
   numberOfAmountP.id = config.money;
   amountDiv.append(numberOfAmountP);
   userInfoDiv.append(amountDiv);
@@ -212,10 +289,17 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement, jsonDecorded: any) {
   container.style.overflowY = "scroll";
   container.style.height = "65vh";
   DisplayBlock(container);
-  merchandises.map(merchandise => {
+  merchandises.map((merchandise) => {
     let cardDiv = document.createElement("div");
-    cardDiv.classList.add("d-flex", "flex-row", "bg-navy", "m-1", "p-3","hover");
-    cardDiv.addEventListener("click", function(){
+    cardDiv.classList.add(
+      "d-flex",
+      "flex-row",
+      "bg-navy",
+      "m-1",
+      "p-3",
+      "hover"
+    );
+    cardDiv.addEventListener("click", function () {
       DisplayNone(container);
       GetDetail(merchandise);
     });
@@ -226,23 +310,46 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement, jsonDecorded: any) {
     cardDiv.append(merchandiseImg);
 
     let detailDiv = document.createElement("div");
-    detailDiv.classList.add("d-flex", "flex-column", "align-items-center", "ml-3", "col");
-    
+    detailDiv.classList.add(
+      "d-flex",
+      "flex-column",
+      "align-items-center",
+      "ml-3",
+      "col"
+    );
+
     let firstLineDiv = document.createElement("div");
-    firstLineDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "bg-navy", "col", "px-0");
+    firstLineDiv.classList.add(
+      "d-flex",
+      "justify-content-between",
+      "align-items-center",
+      "bg-navy",
+      "col",
+      "px-0"
+    );
     let merchandiseNameH4 = document.createElement("h4");
     merchandiseNameH4.classList.add("text-white", "font-weight-bold", "pr-1");
     merchandiseNameH4.innerHTML = merchandise.name;
     firstLineDiv.append(merchandiseNameH4);
     let purchaseQuantityH4 = document.createElement("h4");
-    purchaseQuantityH4 .classList.add("text-white", "font-weight-bold", "pl-1");
-    purchaseQuantityH4.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userData[merchandise.name.replace(/\s+/g, "")] : "0";
+    purchaseQuantityH4.classList.add("text-white", "font-weight-bold", "pl-1");
+    purchaseQuantityH4.innerHTML =
+      jsonDecorded !== null
+        ? jsonDecorded[0].userData[merchandise.name.replace(/\s+/g, "")]
+        : "0";
     purchaseQuantityH4.id = merchandise.name.replace(/\s+/g, "");
     firstLineDiv.append(purchaseQuantityH4);
     detailDiv.append(firstLineDiv);
 
     let secondLineDiv = document.createElement("div");
-    secondLineDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "bg-navy", "col", "px-0");
+    secondLineDiv.classList.add(
+      "d-flex",
+      "justify-content-between",
+      "align-items-center",
+      "bg-navy",
+      "col",
+      "px-0"
+    );
     let priceDiv = document.createElement("div");
     priceDiv.classList.add("d-flex", "flex-row");
     let currencyP1 = document.createElement("p");
@@ -277,9 +384,8 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement, jsonDecorded: any) {
   });
 }
 
-function GetMainPage(inputName: string, savedData: string | null){
+function GetMainPage(inputName: string, savedData: string | null) {
   return Main(inputName, savedData);
 }
 
 export default GetMainPage;
-

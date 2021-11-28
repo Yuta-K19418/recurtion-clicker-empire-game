@@ -11,7 +11,7 @@
   "scripts": {
     "build": "webpack --mode=development",
     "start": "webpack serve --mode=development",
-    "eslint:fix": "eslint --fix"
+    "eslint:fix": "prettier --write src/**/*.ts;eslint --fix"
   },
   "repository": "https://github.com/Yuta-K19418/recurtion-clicker-empire-game.git",
   "author": "Yuta-K19418 <yuta.k.19418@gmail.com>",
