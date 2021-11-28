@@ -7,9 +7,11 @@ import ResetAllData from "../resetAllData";
 import SaveData from "../saveData";
 import GetDetail from "./detail";
 
-const Main = (inputName: string) => {
+const Main = (inputName: string, savedData: string | null) => {
   const config = AppConfig();
   const AMOUNT_PER_A_CLICK = 25;
+
+  let jsonDecorded = savedData !== null ? JSON.parse(savedData) : null;
 
   let mainContainer = document.getElementById("mainContainer");
   mainContainer?.classList.add("d-flex", "bg-navy", "d-block", "p-2");
@@ -29,7 +31,7 @@ const Main = (inputName: string) => {
 
   let numberOfhamburgersP = document.createElement("p");
   numberOfhamburgersP.classList.add("text-white", "font-weight-bold", "pr-1");
-  numberOfhamburgersP.innerHTML = "0";
+  numberOfhamburgersP.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userData.hamburgers : "0"; 
   numberOfhamburgersP.id = config.hamburger;
   upperHamburgerDiv.append(numberOfhamburgersP);
 
@@ -81,11 +83,11 @@ const Main = (inputName: string) => {
   let lowerAreaDiv = document.createElement("div");
   lowerAreaDiv.classList.add("d-flex", "flex-row", "justify-content-end", "pr-4", "py-2");
 
-  upperAreaDiv.append(getUserInfoDiv(numberOfAmountP, inputName));
+  upperAreaDiv.append(getUserInfoDiv(numberOfAmountP, inputName, jsonDecorded));
   subRightSectionContainer.append(upperAreaDiv);
   
   middleAreaDiv.classList.add("bg-dark");
-  getMerchandiseCards(middleAreaDiv);
+  getMerchandiseCards(middleAreaDiv, jsonDecorded);
   let detailDiv = document.createElement("div");
   detailDiv.id = "detail";
   middleAreaDiv.append(detailDiv);
@@ -124,7 +126,7 @@ const Main = (inputName: string) => {
   DisplayNone(loginContainer);
 }
 
-function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string): HTMLElement{
+function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string, jsonDecorded: any): HTMLElement{
 
   const config = AppConfig();
 
@@ -136,7 +138,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string): HTMLEl
   nameDiv.classList.add("text-center", "bg-navy", "col", "m-1", "py-2");
   let nameP = document.createElement("p");
   nameP.classList.add("text-white", "font-weight-bold");
-  nameP.innerHTML = inputName;
+  nameP.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userName : inputName;
   nameP.id = config.userName;
   nameDiv.append(nameP);
   userInfoDiv.append(nameDiv);
@@ -146,7 +148,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string): HTMLEl
   ageDiv.classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col", "m-1", "py-2");
   let numberOfAgeP = document.createElement("p");
   numberOfAgeP.classList.add("text-white", "font-weight-bold","pr-1");
-  numberOfAgeP.innerHTML = "1";
+  numberOfAgeP.innerHTML =  jsonDecorded !== null ? jsonDecorded[0].userData.userAge : "20";
   numberOfAgeP.id = config.userAge;
   ageDiv.append(numberOfAgeP);
   let ageP = document.createElement("p");
@@ -164,7 +166,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string): HTMLEl
   daysDiv.classList.add("d-flex", "flex-row", "justify-content-center", "bg-navy", "col", "m-1", "py-2");
   let numberOfDaysP = document.createElement("p");
   numberOfDaysP.classList.add("text-white", "font-weight-bold","pr-1");
-  numberOfDaysP.innerHTML = "20";
+  numberOfDaysP.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userData.passedDays : "0";
   numberOfDaysP.id = config.passedDays;
   setInterval(function(){
     numberOfDaysP.innerHTML = (new Decimal(numberOfDaysP.innerHTML).plus(1)).toString();
@@ -196,14 +198,14 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string): HTMLEl
   currencyP .innerHTML = "¥";
   amountDiv.append(currencyP);
   numberOfAmountP .classList.add("text-white", "font-weight-bold");
-  numberOfAmountP.innerHTML = "50000";
+  numberOfAmountP.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userData.money : "50000";
   numberOfAmountP.id = config.money;
   amountDiv.append(numberOfAmountP);
   userInfoDiv.append(amountDiv);
   return userInfoDiv;
 }
 
-function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
+function getMerchandiseCards(middleAreaDiv: HTMLDivElement, jsonDecorded: any) {
   const merchandises = getMerchandises();
   let container = document.createElement("div");
   container.id = "cards";
@@ -234,7 +236,7 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
     firstLineDiv.append(merchandiseNameH4);
     let purchaseQuantityH4 = document.createElement("h4");
     purchaseQuantityH4 .classList.add("text-white", "font-weight-bold", "pl-1");
-    purchaseQuantityH4.innerHTML = "0";
+    purchaseQuantityH4.innerHTML = jsonDecorded !== null ? jsonDecorded[0].userData[merchandise.name.replace(/\s+/g, "")] : "0";
     purchaseQuantityH4.id = merchandise.name.replace(/\s+/g, "");
     firstLineDiv.append(purchaseQuantityH4);
     detailDiv.append(firstLineDiv);
@@ -275,8 +277,8 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
   });
 }
 
-function GetMainPage(inputName: string){
-  return Main(inputName);
+function GetMainPage(inputName: string, savedData: string | null){
+  return Main(inputName, savedData);
 }
 
 export default GetMainPage;

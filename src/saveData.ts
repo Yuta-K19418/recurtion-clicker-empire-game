@@ -6,16 +6,16 @@ function SaveData() {
     let merchandisesStringList: string[] = [];
     getMerchandises().map(merchandise => {
         let element = document.querySelector<HTMLElement>(`#${merchandise.name.replace(/\s+/g, "")}`);
-        merchandisesStringList.push(`${element?.id}: ${element?.innerHTML}`);
+        merchandisesStringList.push(`"${element?.id}": "${element?.innerHTML}"`);
     })
 
     const jsonString = `[{
-        userName: ${document.querySelector<HTMLElement>(`#${config.userName}`)!.innerHTML},
-        userData: {
-            userAge: ${document.querySelector<HTMLElement>(`#${config.userAge}`)!.innerHTML},
-            passedDays: ${document.querySelector<HTMLElement>(`#${config.passedDays}`)!.innerHTML},
-            money: ${document.querySelector<HTMLElement>(`#${config.money}`)!.innerHTML},
-            hamburgers: ${document.querySelector<HTMLElement>(`#${config.hamburger}`)!.innerHTML},
+        "userName": "${document.querySelector<HTMLElement>(`#${config.userName}`)!.innerHTML}",
+        "userData": {
+            "userAge": "${document.querySelector<HTMLElement>(`#${config.userAge}`)!.innerHTML}",
+            "passedDays": "${document.querySelector<HTMLElement>(`#${config.passedDays}`)!.innerHTML}",
+            "money": "${document.querySelector<HTMLElement>(`#${config.money}`)!.innerHTML}",
+            "hamburgers": "${document.querySelector<HTMLElement>(`#${config.hamburger}`)!.innerHTML}",
             ${merchandisesStringList.join(",")}
         }        
     }]`;

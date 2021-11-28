@@ -1,5 +1,6 @@
 import DisplayBlock from "../diplayBlock";
 import DisplayNone from "../displayNone";
+import GetSavedData from "../getSavedData";
 import GetMainPage from "./main";
 
 const Login = () => {
@@ -30,7 +31,12 @@ const Login = () => {
   newButton.classList.add("btn", "btn-primary", "hover", "col-12");
   newButton.innerHTML = "New";
   newButton.addEventListener("click", function(){
-    validateInputName(inputName, mainContainer, subLoginContainer);
+    if (isInputNameInvalid(inputName)) {
+      return;
+    }
+    mainContainer!.className = "";
+    DisplayNone(subLoginContainer);
+    GetMainPage(inputName.value, null);
   });
   newButtonDiv.append(newButton);
   buttonDiv.append(newButtonDiv);
@@ -40,7 +46,19 @@ const Login = () => {
   loginButton.classList.add("btn", "btn-primary", "hover", "col-12");
   loginButton.innerHTML = "Login";
   loginButton.addEventListener("click", function(){
-    validateInputName(inputName, mainContainer, subLoginContainer);
+    if (isInputNameInvalid(inputName)) {
+      return;
+    }
+    const savedData = GetSavedData(inputName.value);
+    if (savedData === null) {
+      alert("指定されたユーザーのデータは存在しません。")
+    }
+    else {
+      mainContainer!.className = "";
+      DisplayNone(subLoginContainer);
+      GetMainPage(inputName.value, savedData);
+    }
+
   });
   loginButtonDiv.append(loginButton);
   buttonDiv.append(loginButtonDiv);
@@ -49,13 +67,13 @@ const Login = () => {
   mainContainer?.append(subLoginContainer);
 }
 
-const validateInputName = (inputName: HTMLInputElement, mainContainer: HTMLElement | null, subLoginContainer: HTMLElement) => {
+function isInputNameInvalid (inputName: HTMLInputElement)  {
   if (inputName.value === null || inputName.value === ""){
     alert("名前を入力してください。");
-  } else {
-    mainContainer!.className = "";
-    DisplayNone(subLoginContainer);
-    GetMainPage(inputName.value);
+    return true;
+  }
+  else {
+    return false;
   }
 }
 
