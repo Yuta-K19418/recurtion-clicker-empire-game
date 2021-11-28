@@ -98,7 +98,7 @@ const Detail = (merchandise: Merchandise) => {
     purchaseButton.addEventListener("click", function() {
         const config = AppConfig();
         let money = document.getElementById(config.money);
-        if (new Decimal(money!.innerHTML) >= new Decimal(totalPriceP.innerHTML)) {
+        if (Number(money!.innerHTML) >= Number(totalPriceP.innerHTML)) {
             money!.innerHTML = (new Decimal(money!.innerHTML).minus(new Decimal(totalPriceP.innerHTML))).toString();  
             let numberOfPurchases = document.getElementById(nameP.innerHTML.replace(/\s+/g, ""));
             numberOfPurchases!.innerHTML = (new Decimal(numberOfPurchases!.innerHTML).plus(new Decimal(inputNumberOfPurchases.value))).toString();

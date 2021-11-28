@@ -61,8 +61,9 @@ const Main = () => {
   hamburgerImg.height = 180;
   hamburgerImg.width = 280;
   hamburgerImg.addEventListener("click", function(){
-    numberOfhamburgersP.innerHTML = (new Decimal(numberOfhamburgersP.innerHTML).plus(1)).toString();
-    numberOfAmountP.innerHTML = (new Decimal(numberOfAmountP.innerHTML).plus(AMOUNT_PER_A_CLICK)).toString();
+    let numberOfFlipMachine = new Decimal(document.querySelector<HTMLElement>(`#${getMerchandises()[0].name.replace(/\s+/g, "")}`)!.innerHTML);
+    numberOfhamburgersP.innerHTML = (new Decimal(numberOfhamburgersP.innerHTML).plus(numberOfFlipMachine.plus(1))).toString();
+    numberOfAmountP.innerHTML = (new Decimal(numberOfAmountP.innerHTML).plus(new Decimal(numberOfFlipMachine.plus(1)).times(AMOUNT_PER_A_CLICK))).toString();
   });
   hamburgerImgDiv.append(hamburgerImg);
   subLeftSectionContainer.append(hamburgerImgDiv);
@@ -165,7 +166,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
     let totalAmount = new Decimal(0);
     getMerchandises().map(merchandise => {
       let numberOfPurchases = new Decimal(document.querySelector<HTMLElement>(`#${merchandise.name.replace(/\s+/g, "")}`)!.innerHTML);
-      totalAmount = totalAmount.plus(numberOfPurchases.times(merchandise.unitPrice));
+      totalAmount = totalAmount.plus(merchandise.unit === config.Second ? numberOfPurchases.times(merchandise.unitPrice) : 0);
     });
     numberOfAmountP.innerHTML = (new Decimal(numberOfAmountP.innerHTML).plus(totalAmount)).toString();
 
