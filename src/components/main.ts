@@ -186,8 +186,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   currencyP .innerHTML = "¥";
   amountDiv.append(currencyP);
   numberOfAmountP .classList.add("text-white", "font-weight-bold");
-  // numberOfAmountP.innerHTML = "0";
-  numberOfAmountP.innerHTML = "1000000";
+  numberOfAmountP.innerHTML = "50000";
   numberOfAmountP.id = config.money;
   amountDiv.append(numberOfAmountP);
   userInfoDiv.append(amountDiv);
