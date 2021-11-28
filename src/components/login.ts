@@ -4,7 +4,10 @@ import GetMainPage from "./main";
 
 const Login = () => {
   let mainContainer = document.getElementById("loginContainer");
-  mainContainer?.classList.add("bg-white", "text-center", "p-4");
+  mainContainer?.classList.add("d-flex", "justify-content-center", "align-items-center");
+  let subLoginContainer = document.createElement("div");
+  subLoginContainer.classList.add("d-flex", "flex-column", "justify-content-center", "bg-white", "text-center", "p-4");
+  subLoginContainer.style.height = "20vh";
 
   let titleDiv = document.createElement("div");
   let titleH2 = document.createElement("h2");
@@ -27,7 +30,7 @@ const Login = () => {
   newButton.classList.add("btn", "btn-primary", "hover", "col-12");
   newButton.innerHTML = "New";
   newButton.addEventListener("click", function(){
-    validateInputName(inputName, mainContainer);
+    validateInputName(inputName, mainContainer, subLoginContainer);
   });
   newButtonDiv.append(newButton);
   buttonDiv.append(newButtonDiv);
@@ -37,20 +40,22 @@ const Login = () => {
   loginButton.classList.add("btn", "btn-primary", "hover", "col-12");
   loginButton.innerHTML = "Login";
   loginButton.addEventListener("click", function(){
-    validateInputName(inputName, mainContainer);
+    validateInputName(inputName, mainContainer, subLoginContainer);
   });
   loginButtonDiv.append(loginButton);
   buttonDiv.append(loginButtonDiv);
 
-  mainContainer?.append(titleDiv, nameDiv, buttonDiv);
+  subLoginContainer.append(titleDiv, nameDiv, buttonDiv);
+  mainContainer?.append(subLoginContainer);
 }
 
-const validateInputName = (inputName: HTMLInputElement, mainContainer: HTMLElement | null) => {
+const validateInputName = (inputName: HTMLInputElement, mainContainer: HTMLElement | null, subLoginContainer: HTMLElement) => {
   if (inputName.value === null || inputName.value === ""){
     alert("名前を入力してください。");
   } else {
-    DisplayNone(mainContainer);
-    GetMainPage();
+    mainContainer!.className = "";
+    DisplayNone(subLoginContainer);
+    GetMainPage(inputName.value);
   }
 }
 

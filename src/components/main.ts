@@ -7,16 +7,12 @@ import ResetAllData from "../resetAllData";
 import SaveData from "../saveData";
 import GetDetail from "./detail";
 
-const Main = () => {
+const Main = (inputName: string) => {
   const config = AppConfig();
   const AMOUNT_PER_A_CLICK = 25;
 
-  let mainContainer = document.getElementById("main");
-  mainContainer!.style.height = "100vh";
-
-  let subContainer = document.createElement("div");
-  subContainer.classList.add("d-flex", "bg-navy", "d-block", "p-2");
-  subContainer.id = "mainContainer";
+  let mainContainer = document.getElementById("mainContainer");
+  mainContainer?.classList.add("d-flex", "bg-navy", "d-block", "p-2");
 
   let numberOfAmountP = document.createElement("p");
   
@@ -71,7 +67,7 @@ const Main = () => {
   hamburgerImgDiv.append(hamburgerImg);
   subLeftSectionContainer.append(hamburgerImgDiv);
   leftSection.append(subLeftSectionContainer);
-  subContainer.append(leftSection);
+  mainContainer?.append(leftSection);
 
 
   let rightSection = document.createElement("div");
@@ -85,7 +81,7 @@ const Main = () => {
   let lowerAreaDiv = document.createElement("div");
   lowerAreaDiv.classList.add("d-flex", "flex-row", "justify-content-end", "pr-4", "py-2");
 
-  upperAreaDiv.append(getUserInfoDiv(numberOfAmountP));
+  upperAreaDiv.append(getUserInfoDiv(numberOfAmountP, inputName));
   subRightSectionContainer.append(upperAreaDiv);
   
   middleAreaDiv.classList.add("bg-dark");
@@ -121,12 +117,14 @@ const Main = () => {
   subRightSectionContainer.append(lowerAreaDiv);
   
   rightSection.append(subRightSectionContainer);
-  subContainer.append(rightSection);
+  mainContainer?.append(rightSection);
 
-  mainContainer?.append(subContainer);
+  DisplayBlock(mainContainer);
+  let loginContainer = document.getElementById("loginContainer");
+  DisplayNone(loginContainer);
 }
 
-function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
+function getUserInfoDiv(numberOfAmountP: HTMLElement, inputName: string): HTMLElement{
 
   const config = AppConfig();
 
@@ -138,7 +136,7 @@ function getUserInfoDiv(numberOfAmountP: HTMLElement): HTMLElement{
   nameDiv.classList.add("text-center", "bg-navy", "col", "m-1", "py-2");
   let nameP = document.createElement("p");
   nameP.classList.add("text-white", "font-weight-bold");
-  nameP.innerHTML = "test";
+  nameP.innerHTML = inputName;
   nameP.id = config.userName;
   nameDiv.append(nameP);
   userInfoDiv.append(nameDiv);
@@ -277,8 +275,8 @@ function getMerchandiseCards(middleAreaDiv: HTMLDivElement) {
   });
 }
 
-function GetMainPage(){
-  return Main();
+function GetMainPage(inputName: string){
+  return Main(inputName);
 }
 
 export default GetMainPage;
